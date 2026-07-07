@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Do math with your fingers — a hand-gesture calculator that runs entirely in your browser using your webcam." />
+  <title>Hand Gesture Calculator</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖐️</text></svg>" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app__header">
+      <h1>🖐️ Hand Gesture Calculator</h1>
+      <p>Count with your fingers. Everything runs in your browser — the camera never leaves your device.</p>
+    </header>
+
+    <main class="grid">
+      <!-- Camera -->
+      <section class="panel camera">
+        <div class="stage" id="stage">
+          <video id="video" playsinline muted></video>
+          <canvas id="overlay"></canvas>
+
+          <div class="stage__hint" id="loader">
+            <div class="spinner"></div>
+            <p id="loaderText">Loading hand-tracking model…</p>
+          </div>
+
+          <div class="stage__hint stage__hint--start" id="startScreen" hidden>
+            <div class="startIcon">📷</div>
+            <p>Ready when you are.</p>
+            <button class="btn btn--primary" id="startBtn">Start Camera</button>
+            <small id="startError" class="startError"></small>
+          </div>
+
+          <div class="countdown" id="countdown" hidden>
+            <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="ring-bg"/><circle cx="60" cy="60" r="52" class="ring-fg" id="ring"/></svg>
+            <span id="fingerCount">0</span>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn" id="stopBtn" disabled>Stop</button>
+          <button class="btn" id="resetBtn">Reset</button>
+        </div>
+      </section>
+
+      <!-- Calculator readout -->
+      <section class="panel readout">
+        <div class="stateBadge" id="stateBadge">Waiting…</div>
+
+        <div class="expression">
+          <div class="slot" data-slot="num1"><span class="slot__label">Number 1</span><span class="slot__value" id="num1">–</span></div>
+          <div class="slot slot--op" data-slot="op"><span class="slot__label">Operator</span><span class="slot__value" id="op">–</span></div>
+          <div class="slot" data-slot="num2"><span class="slot__label">Number 2</span><span class="slot__value" id="num2">–</span></div>
+        </div>
+
+        <div class="result">
+          <span class="result__eq">=</span>
+          <span class="result__value" id="result">?</span>
+        </div>
+
+        <div class="guide">
+          <h2>How to play</h2>
+          <ol>
+            <li>Hold up fingers for the <b>first number</b> (0–5, or up to 10 with both hands).</li>
+            <li>Hold a gesture for the <b>operator</b>: <span class="chip">1 = −</span><span class="chip">2 = +</span><span class="chip">3 = ×</span><span class="chip">4 = ÷</span></li>
+            <li>Hold up fingers for the <b>second number</b>.</li>
+            <li>Hold any gesture to reveal the <b>result</b>.</li>
+          </ol>
+          <p class="tip">Hold each pose steady for ~2 seconds — the ring shows your progress.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app__footer">
+      Built with MediaPipe Hands · runs 100% client-side
+    </footer>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
